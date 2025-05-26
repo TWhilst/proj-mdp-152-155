@@ -1,0 +1,75 @@
+pipeline {
+    agent any
+
+    tools{
+       maven 'maven'
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'project-1',
+                credentialsId: 'github',
+                url: 'https://github.com/TWhilst/proj-mdp-152-155.git'
+            }
+        }
+
+        stage('Build & Package') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage ('Run Sonarqube on Docker') {
+            steps{
+                sh 'docker container run --name sonarqube-t -dt -p 9000:9000 sonarqube:latest'
+            }
+        }
+
+        stage('Sonarqube integration') {
+            steps {
+                script{
+                   withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'Jenkins-sonarqube') {
+                        sh 'mvn sonar:sonar'
+
+                        timeout(time: 1, unit: 'HOURS') {
+                           def qg = waitForQualityGate()
+                           if(qg.status != 'OK') {
+                               error "pipeline aborted due to quality gate failure: ${qg.status}"
+                           }
+
+                       }
+                   }
+                }
+            }
+        }
+        stage("Build Docker Image") {
+            steps{
+                sh 'docker build -t twhilst/javaweb:1.0 .'
+            }
+        }
+        stage("Build Docker Container") {
+            steps{
+                sh 'docker container run -dt -p 8080:8080 --name toche-webapp twhilst/javaweb:1.0'
+            }
+        }
+        stage("Docker Login and Push") {
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'dockerHub', variable: 'dockerPsw1')]) {
+                        sh 'docker login -u twhilst -p ${dockerPsw1}'
+
+                        sh 'docker push twhilst/javaweb:1.0'
+                    }
+                }
+            }
+        }
+
+    }
+}
