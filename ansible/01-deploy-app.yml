@@ -21,7 +21,7 @@
         dest: /home/ec2-user/web
 
     - name: Build Docker image
-      command: docker build -t webapp /home/ec2-user/web/src
+      command: docker build -t webapp:1.0.0 /home/ec2-user/jenkins/workspace/javaweb/src
 
     - name: Run Docker container
       command: docker run -dt -p 8080:8080 --name webapp webapp:1.0.0

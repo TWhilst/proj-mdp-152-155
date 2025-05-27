@@ -12,4 +12,4 @@ FROM tomcat:11.0.6-jdk21-temurin-noble
 EXPOSE 8080
 
 # THis basically copies the result of the node container and paste it in the nginx html folder
-COPY --from=build /app/target/WebAppCal-0.0.6.war /usr/local/tomcat/webapps
+COPY --from=build /app/target/WebAppCal-1.3.5.war /usr/local/tomcat/webapps
