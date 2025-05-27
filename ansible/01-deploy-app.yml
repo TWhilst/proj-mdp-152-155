@@ -1,0 +1,27 @@
+---
+- name: Setup Docker
+  hosts: app1
+  become: true
+  tasks:
+    - name: Install packages
+      yum:
+        name: git, docker
+        state: present
+
+    - name: Start docker service
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Clone repository
+      git:
+        repo: https://github.com/TWhilst/proj-mdp-152-155.git
+        version: project-1
+        dest: /home/ec2-user/web
+
+    - name: Build Docker image
+      command: docker build -t webapp /home/ec2-user/web/src
+
+    - name: Run Docker container
+      command: docker run -dt -p 8080:8080 --name webapp webapp:1.0.0
