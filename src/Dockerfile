@@ -1,6 +1,6 @@
 FROM maven:3.9.9-eclipse-temurin-11-alpine as build
 
-COPY /src /app
+COPY . /app
 
 WORKDIR /app
 
