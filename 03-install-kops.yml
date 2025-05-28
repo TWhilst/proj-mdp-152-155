@@ -3,7 +3,7 @@
   hosts: k8s_workstation
   become: true
   tasks:
-    - name: Get kubectl version
+    - name: Get kopsd version
       command: curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4
       register: kops
 
