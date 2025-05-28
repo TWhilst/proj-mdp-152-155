@@ -6,7 +6,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout Code') { 
             steps {
                 git branch: 'project-1',
                 credentialsId: 'github',
