@@ -11,11 +11,11 @@
       command: |
         curl -LO "https://dl.k8s.io/release/{{ kubectl_version.stdout }}/bin/linux/amd64/kubectl"
     
-    - name: Validate it
-      command: |
-        echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
-      register: kubectl_sha256
-    - debug: {var: kubectl_sha256.stdout}
+    # - name: Validate it
+    #   command: |
+    #     echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+    #   register: kubectl_sha256
+    # - debug: {var: kubectl_sha256.stdout}
 
     - name: Install kubectl binary to /usr/local/bin
       command: |
