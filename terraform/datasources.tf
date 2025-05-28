@@ -19,3 +19,7 @@ data "aws_ami" "server_ami" {
 data "aws_security_group" "Project1_sg_https" {
   name = "main-sg-https"
 }
+
+data "aws_iam_role" "ec2_manage" {
+  name = "Ec2-manage-s3"
+}
