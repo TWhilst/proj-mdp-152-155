@@ -23,6 +23,9 @@
 
     - name: add permissions
       command: chmod +x kubectl
+
+    - name: Create local bin directory if it does not exist
+      command: mkdir -p ~/.local/bin
     
     - name: move kubectl to local bin
       command: |
