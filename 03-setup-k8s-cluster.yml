@@ -1,0 +1,24 @@
+---
+- name: Setup Kubernetes Cluster
+  hosts: k8s_workstation
+  become: true
+  tasks:
+    # - name: Ensure Kubernetes cluster is set up
+    #   include_role:
+    #     name: k8s-cluster-setup
+
+    # - name: Verify Kubernetes cluster status
+    #   command: kubectl get nodes
+    #   register: kubectl_output
+
+    # - name: Display Kubernetes nodes
+    #   debug:
+    #     var: kubectl_output.stdout_lines
+
+    # - name: Ensure kubeconfig is set up correctly
+    #   command: kubectl config view --minify
+    #   register: kubeconfig_output
+
+    # - name: Display kubeconfig details
+    #   debug:
+    #     var: kubeconfig_output.stdout_lines
