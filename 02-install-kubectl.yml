@@ -34,5 +34,6 @@
     - name: Validate Kubectl installation
       command: kubectl version --client
       register: kubectl_version
+      become: false
     - debug: {var: kubectl_version.stdout}
       
