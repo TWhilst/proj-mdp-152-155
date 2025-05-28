@@ -4,7 +4,7 @@
   become: true
   tasks:
     - name: Get kopsd version
-      command: curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name
+      command: curl -s https://api.github.com/repos/kubernetes/kops/releases/latest 
       register: kops
     - debug: {var: kops.stdout}
 
