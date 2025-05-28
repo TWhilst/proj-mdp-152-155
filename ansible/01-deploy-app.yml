@@ -19,11 +19,12 @@
         repo: https://github.com/TWhilst/proj-mdp-152-155.git
         version: project-1
         dest: /home/ec2-user/web
-      
 
+      
     - name: Build Docker image
       command: docker build -t webapp:1.0.1 .
-      chdir: /home/ec2-user/web/
+      args:
+        chdir: /home/ec2-user/web/src
 
     - name: Run Docker container
       command: docker run -dt -p 8080:8080 --name webapp webapp:1.0.1
