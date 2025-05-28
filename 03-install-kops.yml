@@ -4,20 +4,21 @@
   become: true
   tasks:
     - name: Get kopsd version
-      command: curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4
+      command: curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name
       register: kops
+    - debug: {var: kops.stdout}
 
-    - name: Install Kops binary
-      command: |
-        curl -Lo kops https://github.com/kubernetes/kops/releases/download/{{ kops.stdout }}/kops-linux-amd64
+    # - name: Install Kops binary
+    #   command: |
+    #     curl -Lo kops https://github.com/kubernetes/kops/releases/download/{{ kops.stdout }}/kops-linux-amd64
 
-    - name: Add permissions to Kops binary
-      command: chmod +x kops
+    # - name: Add permissions to Kops binary
+    #   command: chmod +x kops
     
-    - name: Move Kops binary to /usr/local/bin
-      command: mv kops /usr/local/bin/kops
+    # - name: Move Kops binary to /usr/local/bin
+    #   command: mv kops /usr/local/bin/kops
 
-    - name: Validate Kops installation
-      command: kops
-      register: kops_version  
-    - debug: {var: kops_version.stdout}
+    # - name: Validate Kops installation
+    #   command: kops
+    #   register: kops_version  
+    # - debug: {var: kops_version.stdout}
