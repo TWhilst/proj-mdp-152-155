@@ -1,10 +1,10 @@
-# FROM maven:3.9.9-eclipse-temurin-11-alpine as build
+FROM maven:3.9.9-eclipse-temurin-11-alpine as build
 
-# COPY . /app
+COPY . /app
 
-# WORKDIR /app
+WORKDIR /app
 
-# RUN mvn clean package
+RUN mvn clean package
 
 FROM tomcat:11.0.6-jdk21-temurin-noble
 
