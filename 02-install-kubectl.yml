@@ -3,9 +3,12 @@
   hosts: k8s_workstation
   become: true
   tasks:
-    - name: Install Kubectl binary and validate it
+    - name: Install Kubectl binary
       command: |
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+    
+    - name: Validate it
+      command: |
         echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
       register: kubectl_sha256
     - debug: {var: kubectl_sha256.stdout}
