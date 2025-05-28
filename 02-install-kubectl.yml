@@ -26,7 +26,6 @@
     
     - name: move kubectl to local bin
       command: |
-        mkdir -p ~/.local/bin
         mv ./kubectl ~/.local/bin/kubectl
 
     - name: Validate Kubectl installation
