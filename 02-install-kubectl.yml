@@ -1,0 +1,24 @@
+---
+- name: Make Installation of Kubectl
+  hosts: k8s_workstation
+  become: true
+  tasks:
+    - name: Install Kubectl binary and validate it
+      command: |
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+        echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+      register: kubectl_sha256
+    - debug: {var: kubectl_sha256.stdout}
+
+    - name: Install Kubectl
+      command: |
+        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        chmod +x kubectl
+        mkdir -p ~/.local/bin
+        mv ./kubectl ~/.local/bin/kubectl
+
+    - name: Validate Kubectl installation
+      command: kubectl version --client
+      register: kubectl_version
+    - debug: {var: kubectl_version.stdout}
+      
