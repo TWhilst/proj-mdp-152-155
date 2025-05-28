@@ -6,7 +6,7 @@
     - name: Get kopsd version
       command: curl -s https://api.github.com/repos/kubernetes/kops/releases/latest 
       register: kops
-    - debug: {var: kops.stdout}
+    - debug: {var: kops.tag_name.stdout}
 
     # - name: Install Kops binary
     #   command: |
