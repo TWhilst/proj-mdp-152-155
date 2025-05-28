@@ -36,3 +36,15 @@ resource "aws_instance" "deploy_server" {
     Name = "deploy-server"
   }
 }
+
+resource "aws_instance" "k8s_workstation" {
+  ami                    = data.aws_ami.server_ami.id
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.Project1_public.id
+  vpc_security_group_ids = [aws_security_group.Project1_sg_ssh.id, aws_security_group.Project1_sg_http.id, data.aws_security_group.Project1_sg_https.id]
+  key_name               = aws_key_pair.Project1_key.key_name
+
+  tags = {
+    Name = "Project1-k8s-workstation"
+  }
+}

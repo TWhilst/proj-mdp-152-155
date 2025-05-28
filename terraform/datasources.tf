@@ -15,3 +15,7 @@ data "aws_ami" "server_ami" {
   }
 
 }
+
+data "aws_security_group" "Project1_sg_https" {
+  name = "main-sg-https"
+}
