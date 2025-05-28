@@ -1,0 +1,12 @@
+---
+- name: Deletion of Kubernetes Cluster
+  hosts: k8s_workstation
+  become: true
+  tasks:
+    - name: Delete k8s cluster
+      command: kops delete cluster \
+        --name=project1.k8s.local \
+        --yes
+
+    - name: Validate k8s cluster deletion
+      command: kops validate cluster --state=s3://

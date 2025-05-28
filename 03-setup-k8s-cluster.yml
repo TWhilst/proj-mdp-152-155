@@ -3,22 +3,30 @@
   hosts: k8s_workstation
   become: true
   tasks:
-    # - name: Ensure Kubernetes cluster is set up
-    #   include_role:
-    #     name: k8s-cluster-setup
+    - name: Ensure aws are installed
+      command: aws --version
 
-    # - name: Verify Kubernetes cluster status
-    #   command: kubectl get nodes
-    #   register: kubectl_output
+    - name: Ensure aws are installed
+      command: kops
 
-    # - name: Display Kubernetes nodes
-    #   debug:
-    #     var: kubectl_output.stdout_lines
+    - name: Ensure aws are installed
+      command: kubectl
 
-    # - name: Ensure kubeconfig is set up correctly
-    #   command: kubectl config view --minify
-    #   register: kubeconfig_output
+    - name: Get s3 bucket name
+      command: aws s3 ls
+      register: s3_buckets
+    - debug: {var: s3_buckets.stdout_lines}
 
-    # - name: Display kubeconfig details
-    #   debug:
-    #     var: kubeconfig_output.stdout_lines
+    # - name: Create k8s cluster
+    #   command: kops create cluster \
+    #     --name=project1.k8s.local \
+    #     --state=s3:// \
+    #     --zones=us-west-2a,us-west-2b \
+    #     --node-count=2 \
+    #     --node-size=t2-micro \
+    #     --master-size=t2-medium \
+    #     --dns=private \
+    #     --yes
+
+    # - name: Validate k8s cluster
+    #   command: kops validate cluster --state=s3://
