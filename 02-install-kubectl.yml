@@ -9,7 +9,7 @@
     
     - name: Install Kubectl binary
       command: |
-        curl -LO "https://dl.k8s.io/release/{{ kubectl_version.stdout }}/bin/linux/amd64/kubectl.sha256"
+        curl -LO "https://dl.k8s.io/release/{{ kubectl_version.stdout }}/bin/linux/amd64/kubectl"
     
     - name: Validate it
       command: |
