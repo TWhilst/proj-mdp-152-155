@@ -1,0 +1,64 @@
+pipeline {
+    agent any
+
+    tools{
+       maven 'maven'
+    }
+    
+    environment {
+        ANSIBLE_INVENTORY = '/home/ec2-user/jenkins/workspace/k8s/hosts.ini'
+        ANSIBLE_PLAYBOOK = '/home/ec2-user/jenkins/workspace/k8s/02-install-kubectl.yml'
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'project-1',
+                credentialsId: 'github',
+                url: 'https://github.com/TWhilst/proj-mdp-152-155.git'
+            }
+        }
+
+        stage('Build & Package') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage ('Run Sonarqube on Docker') {
+            steps{
+                sh 'docker container start sonarqube-t'
+            }
+        }
+
+        stage ('Sonarqube integration') {
+            steps {
+                script{
+                   withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'sonarqube-jenkins') {
+                        sh 'mvn sonar:sonar'
+                   }
+                }
+            }
+        }
+        
+         stage('Deploy to Server') {
+            steps {
+                ansiblePlaybook(
+                    playbook: ANSIBLE_PLAYBOOK,
+                    inventory: ANSIBLE_INVENTORY,
+                    // extraVars: [
+                    //     app_package: APP_PACKAGE,
+                    // ]
+                )
+            }
+        }
+
+
+    }
+}
