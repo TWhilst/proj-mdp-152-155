@@ -17,10 +17,12 @@
       register: kubectl_sha256
     - debug: {var: kubectl_sha256.stdout}
 
+    - name: create directory for kubectl
+      command: mkdir /usr/local/bin/kubectl
+
     - name: Install kubectl binary to /usr/local/bin
       command: |
-        mkdir /usr/local/bin/kubectl
-        sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
     - name: add permissions
       command: chmod +x kubectl
