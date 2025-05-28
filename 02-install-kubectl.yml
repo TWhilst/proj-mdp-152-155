@@ -3,9 +3,13 @@
   hosts: k8s_workstation
   become: true
   tasks:
+    - name: Get kubectl version
+      command: curl -L -s https://dl.k8s.io/release/stable.txt
+      register: kubectl_version
+    
     - name: Install Kubectl binary
       command: |
-        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+        curl -LO "https://dl.k8s.io/release/{{ kubectl_version.stdout }}/bin/linux/amd64/kubectl.sha256"
     
     - name: Validate it
       command: |
