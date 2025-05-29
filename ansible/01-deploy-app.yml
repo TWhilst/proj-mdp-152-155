@@ -31,6 +31,9 @@
       args:
         chdir: /home/ec2-user/web/
 
+    - name: Stop docker container
+      command: docker stop webapp
+
     - name: Run Docker container
       command: docker run -dt -p 8080:8080 --name webapp1 twhilst/webapp:latest
 
