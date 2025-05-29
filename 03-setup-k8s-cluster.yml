@@ -23,7 +23,6 @@
         --state=s3://kubernetes-cluster-bucket-001 \
         --zones=us-west-2a,us-west-2b \
         --node-count=2 \
-        --dns=private \
         --yes
 
     - name: Validate k8s cluster
