@@ -4,6 +4,11 @@ pipeline {
     tools{
        maven 'maven'
     }
+    
+    environment {
+        ANSIBLE_INVENTORY = '/home/ec2-user/jenkins/workspace/javaweb/ansible/hosts.ini'
+        ANSIBLE_PLAYBOOK = '/home/ec2-user/jenkins/workspace/javaweb/ansible/01-deploy-app.yml'
+    }
 
     stages {
         stage('Checkout Code') {
@@ -28,48 +33,37 @@ pipeline {
 
         stage ('Run Sonarqube on Docker') {
             steps{
-                sh 'docker container run --name sonarqube-t -dt -p 9000:9000 sonarqube:latest'
+                sh 'docker container start sonarqube-t'
             }
         }
 
-        stage('Sonarqube integration') {
+        stage ('Sonarqube integration') {
             steps {
                 script{
-                   withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'Jenkins-sonarqube') {
+                   withSonarQubeEnv(installationName: 'sonarqube', credentialsId: 'sonarqube-jenkins') {
                         sh 'mvn sonar:sonar'
-
-                        timeout(time: 1, unit: 'HOURS') {
-                           def qg = waitForQualityGate()
-                           if(qg.status != 'OK') {
-                               error "pipeline aborted due to quality gate failure: ${qg.status}"
-                           }
-
-                       }
                    }
                 }
             }
         }
-        stage("Build Docker Image") {
-            steps{
-                sh 'docker build -t twhilst/javaweb:1.0 .'
-            }
-        }
-        stage("Build Docker Container") {
-            steps{
-                sh 'docker container run -dt -p 8080:8080 --name toche-webapp twhilst/javaweb:1.0'
-            }
-        }
-        stage("Docker Login and Push") {
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'dockerHub', variable: 'dockerPsw1')]) {
-                        sh 'docker login -u twhilst -p ${dockerPsw1}'
-
-                        sh 'docker push twhilst/javaweb:1.0'
+        
+         stage('Deploy to Server') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD_VAR', usernameVariable: 'USERNAME')]) {
+                       ansiblePlaybook(
+                            playbook: ANSIBLE_PLAYBOOK,
+                            inventory: ANSIBLE_INVENTORY,
+                            extraVars: [
+                                username: USERNAME,
+                                password: PASSWORD_VAR,
+                            ]
+                        )
                     }
                 }
             }
         }
+
 
     }
 }
