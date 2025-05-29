@@ -8,7 +8,7 @@ pipeline {
     
     environment {
         ANSIBLE_INVENTORY = '/home/ec2-user/jenkins/workspace/k8s-remove/hosts.ini'
-        ANSIBLE_PLAYBOOK = '/home/ec2-user/jenkins/workspace/k8s-remove/04-validate-cluster.yml'
+        ANSIBLE_PLAYBOOK = '/home/ec2-user/jenkins/workspace/k8s-remove/05-remove-k8s-cluster.yml'
     }
 
     stages {
@@ -20,7 +20,7 @@ pipeline {
             }
         }
         
-        stage('Validate cluster') {
+        stage('Remove k8s cluster') {
             steps {
                 ansiblePlaybook(
                     playbook: ANSIBLE_PLAYBOOK,
