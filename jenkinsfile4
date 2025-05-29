@@ -8,7 +8,7 @@ pipeline {
     
     environment {
         ANSIBLE_INVENTORY = '/home/ec2-user/jenkins/workspace/k8s-validate/hosts.ini'
-        ANSIBLE_PLAYBOOK = '/home/ec2-user/jenkins/workspace/k8s-remove/04-validate-cluster.yml'
+        ANSIBLE_PLAYBOOK = '/home/ec2-user/jenkins/workspace/k8s-validate/04-validate-cluster.yml'
     }
 
     stages {
