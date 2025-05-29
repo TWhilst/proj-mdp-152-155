@@ -6,7 +6,8 @@
     username: "{{ username }}"
     password: "{{ password }}"
   tasks:
-    - debug: msg="Username: {{ username }}, Password: {{ password }}"
+    - debug: 
+        msg: "Username: {{ username }}, Password: {{ password }}"
     - name: Install packages
       yum:
         name: git, docker
