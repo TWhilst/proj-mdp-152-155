@@ -20,7 +20,7 @@ pipeline {
             }
         }
         
-        stage('Install kubectl') {
+        stage('Install kops') {
             steps {
                 ansiblePlaybook(
                     playbook: ANSIBLE_PLAYBOOK,
