@@ -2,7 +2,11 @@
 - name: Setup Docker
   hosts: app1
   become: true
+  vars:
+    username: "{{ username }}"
+    password: "{{ password }}"
   tasks:
+    - debug: msg="Username: {{ username }}, Password: {{ password }}"
     - name: Install packages
       yum:
         name: git, docker
@@ -28,3 +32,6 @@
 
     - name: Run Docker container
       command: docker run -dt -p 8080:8080 --name webapp webapp:1.0.1
+
+    - name: Docker login
+      command: docker login -u {{ username }} -p {{ password }}
