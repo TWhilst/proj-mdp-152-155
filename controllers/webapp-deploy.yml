@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   name: java-webapp
   labels:
-    app: webapp
+    app: java-webapp
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
-      app: webapp
+      app: java-webapp
   template:
     metadata:
       labels:
-        app: webapp
+        app: java-webapp
     spec:
       containers:
       - name: java-webapp
-        image: webapp:1.0.1
+        image: twhilst/webapp
         ports:
         - containerPort: 8080

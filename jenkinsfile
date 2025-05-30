@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    
+    environment {
+        ANSIBLE_INVENTORY = '/home/ec2-user/jenkins/workspace/highly-available-webapp/ansible/hosts.ini'
+        ANSIBLE_PLAYBOOK = '/home/ec2-user/jenkins/workspace/highly-available-webapp/ansible/01-setup-deployment.yml'
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'project-3',
+                credentialsId: 'github',
+                url: 'https://github.com/TWhilst/proj-mdp-152-155.git'
+            }
+        }
+        
+         stage('Deploy to Server') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASSWORD_VAR', usernameVariable: 'USERNAME')]) {
+                       ansiblePlaybook(
+                            playbook: ANSIBLE_PLAYBOOK,
+                            inventory: ANSIBLE_INVENTORY,
+                            extraVars: [
+                                username: USERNAME,
+                                password: PASSWORD_VAR,
+                            ]
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
