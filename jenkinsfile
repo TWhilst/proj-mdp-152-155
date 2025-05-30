@@ -4,6 +4,7 @@ pipeline {
     environment {
         ANSIBLE_INVENTORY = '/home/ec2-user/jenkins/workspace/highly-available-webapp/ansible/hosts.ini'
         ANSIBLE_PLAYBOOK = '/home/ec2-user/jenkins/workspace/highly-available-webapp/ansible/01-setup-deployment.yml'
+        controllers = '/home/ec2-user/jenkins/workspace/highly-available-webapp/controllers'
     }
 
     stages {
@@ -25,6 +26,7 @@ pipeline {
                             extraVars: [
                                 username: USERNAME,
                                 password: PASSWORD_VAR,
+                                controllers: controllers
                             ]
                         )
                     }
