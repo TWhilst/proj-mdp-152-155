@@ -23,6 +23,7 @@
         --state=s3://kubernetes-cluster-bucket-001 \
         --network-id=vpc-0b16e539a6d9d52b8 \
         --zones=us-west-2a,us-west-2b \
+        --subnet-cidr=us-west-2a=10.0.17.0/21,us-west-2b=10.0.24.0/21 \
         --node-count=2 \
         --yes
 
