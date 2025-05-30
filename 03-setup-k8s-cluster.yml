@@ -1,0 +1,31 @@
+---
+- name: Setup Kubernetes Cluster
+  hosts: k8s_workstation
+  become: true
+  tasks:
+    - name: Ensure aws are installed
+      command: aws --version
+
+    - name: Ensure aws are installed
+      command: kops
+
+    - name: Ensure aws are installed
+      command: kubectl
+
+    - name: Get s3 bucket name
+      command: aws s3 ls
+      register: s3_buckets
+    - debug: {var: s3_buckets.stdout_lines}
+
+    - name: Create k8s cluster
+      command: kops create cluster \
+        --name=project1.k8s.local \
+        --state=s3://kubernetes-cluster-bucket-001 \
+        --network-id= vpc-0b16e539a6d9d52b8 \
+        --subnets=subnet-0745d12287c43e816, subnet-0ed22b76f45adb9f6 \
+        --zones=us-west-2a,us-west-2b \
+        --node-count=2 \
+        --yes
+
+    - name: Validate k8s cluster
+      command: kops validate cluster --state=s3://kubernetes-cluster-bucket-001
