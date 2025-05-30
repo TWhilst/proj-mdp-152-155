@@ -1,6 +1,7 @@
 ---
 - name: Setup Deployment Environment
   hosts: k8s_workstation
+  become: true
   tasks:
     - name: Ensure Docker is installed
       command: yum -y install docker
