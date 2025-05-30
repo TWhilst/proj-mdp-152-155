@@ -5,6 +5,7 @@
   tasks:
     - name: Delete k8s cluster
       command: kops delete cluster \
+        --subnets=subnet-0ed22b76f45adb9f6, subnet-0745d12287c43e816
         --name=project1.k8s.local \
         --state=s3://kubernetes-cluster-bucket-001 \
         --yes
