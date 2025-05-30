@@ -5,6 +5,12 @@
   tasks:
     - name: Ensure Docker is installed
       command: yum -y install docker
+
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: true
       
     - name: Login to Docker Hub
       command: docker login -u {{ username }} -p {{ password }}
