@@ -2,6 +2,9 @@
 - name: Setup Deployment Environment
   hosts: k8s_workstation
   tasks:
+    - name: Ensure Docker is installed
+      command: yum -y install docker
+      
     - name: Login to Docker Hub
       command: docker login -u {{ username }} -p {{ password }}
 
