@@ -20,26 +20,26 @@
         src: "{{ controllers }}"
         dest: /home/ec2-user/
 
-    - name: Create a replicaset on Kubernetes
-      command: kubectl apply -f webapp-deploy.yml
-      args:
-        chdir: /home/ec2-user/controllers
+    # - name: Create a replicaset on Kubernetes
+    #   command: kubectl apply -f webapp-deploy.yml
+    #   args:
+    #     chdir: /home/ec2-user/controllers
 
-    - name: Get the status of the replicaset
-      command: kubectl get replicaset
-      register: replicaset_status
-    - debug:
-        msg: "Replicaset status: {{ replicaset_status.stdout }}"
+    # - name: Get the status of the replicaset
+    #   command: kubectl get replicaset
+    #   register: replicaset_status
+    # - debug:
+    #     msg: "Replicaset status: {{ replicaset_status.stdout }}"
 
-    - name: Create a LoadBalancer for the replicaset
-      command: kubectl create -f load-balancer-service.yml
-      args:
-        chdir: /home/ec2-user/controllers
+    # - name: Create a LoadBalancer for the replicaset
+    #   command: kubectl create -f load-balancer-service.yml
+    #   args:
+    #     chdir: /home/ec2-user/controllers
 
-    - name: Get the status of the LoadBalancer
-      command: kubectl get service
-      register: service_status
-    - debug: {var: service_status.stdout_lines}
+    # - name: Get the status of the LoadBalancer
+    #   command: kubectl get service
+    #   register: service_status
+    # - debug: {var: service_status.stdout_lines}
 
     - name: Create autoscaling group for the replicaset
       command: kubectl create -f auto-scaling.yml
