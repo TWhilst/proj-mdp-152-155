@@ -19,7 +19,7 @@
 
     - name: Create k8s cluster
       command: kops create cluster \
-        --name=project1.k8s.local \
+        --name=project12.k8s.local \
         --state=s3://kubernetes-cluster-bucket-001 \
         --network-id=vpc-0b16e539a6d9d52b8 \
         --zones=us-west-2a,us-west-2b \
