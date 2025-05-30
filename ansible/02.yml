@@ -1,0 +1,15 @@
+---
+- name: Setup Deployment Environment
+  hosts: k8s_workstation
+  become: true
+  tasks:
+    - name: Create autoscaling group for the replicaset
+      command: kubectl create -f auto-scaling.yml
+      args:
+        chdir: /home/ec2-user/controllers
+
+    - name: Get the status of the autoscaling group
+      command: kubectl get hpa
+      register: hpa_status
+    - debug:
+        msg: "Horizontal Pod Autoscaler status: {{ hpa_status.stdout }}"
