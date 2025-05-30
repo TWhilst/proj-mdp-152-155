@@ -53,12 +53,12 @@ resource "aws_route_table_association" "Project1_rta_b" {
   route_table_id = aws_route_table.Project1_rt.id
 }
 
-resource "aws_route_table_association" "Project1_rta_private" {
-  subnet_id      = aws_subnet.Project1_private.id
-  route_table_id = aws_route_table.Project1_rt_private.id
-}
+# resource "aws_route_table_association" "Project1_rta_private" {
+#   subnet_id      = aws_subnet.Project1_private.id
+#   route_table_id = aws_route_table.Project1_rt_private.id
+# }
 
-resource "aws_route_table_association" "Project1_rta_private_b" {
-  subnet_id      = aws_subnet.Project1_private_b.id
-  route_table_id = aws_route_table.Project1_rt_private_b.id
-}
+# resource "aws_route_table_association" "Project1_rta_private_b" {
+#   subnet_id      = aws_subnet.Project1_private_b.id
+#   route_table_id = aws_route_table.Project1_rt_private_b.id
+# }

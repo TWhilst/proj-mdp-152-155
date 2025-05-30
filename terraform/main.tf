@@ -32,25 +32,25 @@ resource "aws_subnet" "Project1_public_b" {
   }
 }
 
-resource "aws_subnet" "Project1_private" {
+resource "aws_subnet" "Project1_public1" {
   availability_zone = "us-west-2a"
+  map_public_ip_on_launch = true
   vpc_id            = aws_vpc.Project1.id
   cidr_block        = "10.0.9.0/24"
-  map_public_ip_on_launch = false
 
   tags = {
-    Name = "main-private"
+    Name = "main-public1"
   }
 }
 
-resource "aws_subnet" "Project1_private_b" {
+resource "aws_subnet" "Project1_public1_b" {
   availability_zone = "us-west-2b"
+  map_public_ip_on_launch = true
   vpc_id            = aws_vpc.Project1.id
   cidr_block        = "10.0.5.0/24"
-  map_public_ip_on_launch = false
 
   tags = {
-    Name = "main-private-b"
+    Name = "main-public1-b"
   }
 }
 
