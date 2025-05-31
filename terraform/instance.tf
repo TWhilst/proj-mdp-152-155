@@ -25,17 +25,17 @@ resource "aws_instance" "ansible_server" {
   }
 }
 
-# resource "aws_instance" "deploy_server" {
-#   ami                    = data.aws_ami.server_ami.id
-#   instance_type          = "t2.micro"
-#   subnet_id              = aws_subnet.Project1_private.id
-#   vpc_security_group_ids = [aws_security_group.Project1_sg_ssh.id, aws_security_group.Project1_sg_http.id, aws_security_group.Project1_sg_jenkins.id]
-#   key_name               = aws_key_pair.Project1_key.key_name
+resource "aws_instance" "deploy_server" {
+  ami                    = data.aws_ami.server_ami.id
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.Project1_private.id
+  vpc_security_group_ids = [aws_security_group.Project1_sg_ssh.id, aws_security_group.Project1_sg_http.id, aws_security_group.Project1_sg_jenkins.id]
+  key_name               = aws_key_pair.Project1_key.key_name
 
-#   tags = {
-#     Name = "deploy-server"
-#   }
-# }
+  tags = {
+    Name = "deploy-server"
+  }
+}
 
 resource "aws_iam_instance_profile" "Admin_access" {
   name = "Ec2-manage-s3-profile"
